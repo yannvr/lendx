@@ -1,0 +1,6 @@
+packages:
+  - "contracts/ethereum"
+  - "contracts/injective"
+  - "contracts/solana"
+  - "zk-proofs"
+  - "scripts"

@@ -1,0 +1,17 @@
+{
+  "name": "lendx",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm run scripts/dev.ts",
+    "test": "pnpm run scripts/test.ts"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "prettier": "^3.5.1"
+  },
+  "dependencies": {
+    "jest": "^29.7.0",
+    "typescript": "^5.7.3"
+  }
+}

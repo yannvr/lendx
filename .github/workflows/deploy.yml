@@ -1,0 +1,26 @@
+name: Deploy LendX
+on: push
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install pnpm & Bun
+        run: |
+          npm install -g pnpm
+          curl -fsSL https://bun.sh/install | bash
+          source $HOME/.bashrc
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Deploy Ethereum Contracts
+        run: pnpm --filter contracts/ethereum hardhat deploy
+
+      - name: Deploy Injective Contracts
+        run: pnpm --filter contracts/injective cargo wasm
+
+      - name: Deploy Solana Contracts
+        run: pnpm --filter contracts/solana anchor deploy
