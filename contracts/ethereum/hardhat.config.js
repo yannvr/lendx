@@ -7,4 +7,10 @@ module.exports = {
       chainId: 31337,
     },
   },
+  paths: {
+    sources: "./contracts", // Default path for Solidity contracts
+    tests: "./test", // Path for test files
+    cache: "./cache",
+    artifacts: "./artifacts",
+  },
 };
