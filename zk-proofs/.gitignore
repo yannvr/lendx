@@ -1,0 +1,13 @@
+# Build artifacts
+target/
+
+# Log files
+*.log
+
+# IDE configuration folders (adjust if you use other editors)
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
