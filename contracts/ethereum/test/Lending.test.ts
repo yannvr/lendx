@@ -78,7 +78,7 @@ describe("LendX Lending Contract (Viem Test)", function () {
       args: [collateralToken.address, depositAmount],
     });
     const depositReceipt = await publicClient.waitForTransactionReceipt({ hash: depositTx});
-    console.log('depositReceipt', depositReceipt);
+    expect(depositReceipt.status).to.equal('success');
   });
 
   // Additional tests for borrow, repayLoan, and liquidate can be updated similarly.
