@@ -49,6 +49,24 @@ contract LendX is ReentrancyGuard, Ownable {
     event LiquidationExecuted(address indexed user);
 
     /**
+     * @notice Gets the current price of the collateral from the price oracle.
+     * @return The price of the collateral.
+     */
+    function getCollateralPrice() public view returns (uint256) {
+        (, int price, , , ) = priceOracle.latestRoundData();
+        return uint256(price);
+    }
+
+    /**
+     * @notice Gets the loan details for a given user.
+     * @param _user The address of the user.
+     * @return The loan details.
+     */
+    function getLoan(address _user) external view returns (Loan memory) {
+        return loans[_user];
+    }
+
+    /**
      * @notice Allows users to deposit ERC-20 collateral.
      * @param _token The address of the ERC-20 token being deposited.
      * @param _amount The amount of tokens to deposit.
@@ -86,6 +104,45 @@ contract LendX is ReentrancyGuard, Ownable {
     }
 
     /**
+     * @notice Allows users to deposit collateral and borrow in a single transaction.
+     * @param _token The address of the ERC-20 token being deposited.
+     * @param _collateralAmount The amount of tokens to deposit.
+     * @param _borrowAmount The amount of funds to borrow.
+     */
+    function depositAndBorrow(
+        address _token,
+        uint256 _collateralAmount,
+        uint256 _borrowAmount
+    ) external nonReentrant {
+        // Deposit collateral
+        require(
+            _collateralAmount > 0,
+            "Collateral amount must be greater than 0"
+        );
+        IERC20(_token).transferFrom(
+            msg.sender,
+            address(this),
+            _collateralAmount
+        );
+        collateralBalances[msg.sender][_token] += _collateralAmount;
+        emit CollateralDeposited(msg.sender, _token, _collateralAmount);
+
+        // Borrow funds
+        require(
+            loans[msg.sender].borrowedAmount == 0,
+            "Existing loan must be repaid first"
+        );
+        uint256 maxBorrow = (_collateralAmount * LTV_RATIO) / 100;
+        require(
+            _borrowAmount <= maxBorrow,
+            "Borrow amount exceeds allowed limit"
+        );
+        loans[msg.sender] = Loan(_collateralAmount, _borrowAmount, _token);
+        IERC20(_token).transfer(msg.sender, _borrowAmount);
+        emit LoanTaken(msg.sender, _borrowAmount);
+    }
+
+    /**
      * @notice Allows users to repay their loans.
      */
     function repayLoan() external nonReentrant {
@@ -98,15 +155,6 @@ contract LendX is ReentrancyGuard, Ownable {
         );
         delete loans[msg.sender];
         emit LoanRepaid(msg.sender, repaymentAmount);
-    }
-
-    /**
-     * @notice Gets the current price of the collateral from the price oracle.
-     * @return The price of the collateral.
-     */
-    function getCollateralPrice() public view returns (uint256) {
-        (, int price, , , ) = priceOracle.latestRoundData();
-        return uint256(price);
     }
 
     /**
