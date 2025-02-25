@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    .outer {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .inner {
+        width: 45%;
+        border: 1px solid black;
+        padding: 10px;
+        word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <script type="module" src="/index.ts"></script>
+
+  <h1>Noir app</h1>
+<!-- index.html -->
+<form id="verification-form">
+  <label for="user-balance">User Balance:</label>
+  <input type="number" id="user-balance" required />
+
+  <label for="required-balance">Required Balance:</label>
+  <input type="number" id="required-balance" required />
+
+  <button type="submit">Generate & Verify Proof</button>
+</form>
+
+</body>
+</html>

@@ -21,6 +21,12 @@ contract LendX is ReentrancyGuard, Ownable {
         priceOracle = AggregatorV3Interface(_priceOracle);
     }
 
+    /**
+     * @notice Represents a loan taken out by a user.
+     * @param collateralAmount The amount of collateral deposited.
+     * @param borrowedAmount The amount of funds borrowed.
+     * @param collateralToken The address of the ERC-20 token used as collateral.
+     */
     struct Loan {
         uint256 collateralAmount;
         uint256 borrowedAmount;

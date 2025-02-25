@@ -1,6 +1,7 @@
 packages:
   - "contracts/ethereum"
+  - "zk-proofs"
+  - "client"
+  - "server"
   - "contracts/injective"
   - "contracts/solana"
-  - "zk-proofs"
-  - "scripts"
