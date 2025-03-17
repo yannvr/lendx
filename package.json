@@ -2,6 +2,7 @@
   "name": "lendx",
   "version": "1.0.0",
   "private": true,
+  "description": "A modern TypeScript-based lending and finance management platform",
   "scripts": {
     "dev": "pnpm run scripts/dev.ts",
     "test": "pnpm run scripts/test.ts"
@@ -18,5 +19,12 @@
   "type": "module",
   "peerDependencies": {
     "typescript": "^5.0.0"
-  }
+  },
+  "keywords": [
+    "lendx",
+    "lending",
+    "finance",
+    "defi",
+    "typescript"
+  ]
 }
